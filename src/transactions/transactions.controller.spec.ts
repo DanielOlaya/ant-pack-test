@@ -8,6 +8,7 @@ describe('TransactionsController', () => {
 
   beforeEach(async () => {
     const mockTransactionsService = {
+      findByUserId: jest.fn(),
       findAll: jest.fn(),
       create: jest.fn(),
     };
@@ -27,26 +28,15 @@ describe('TransactionsController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('getHistory', () => {
-    it('should return all transactions', async () => {
+  describe('getHistoryByUserId', () => {
+    it('should return transactions for a user', async () => {
       const transactions = [{ id: 1 }, { id: 2 }];
-      (service.findAll as jest.Mock).mockResolvedValue(transactions);
+      (service.findByUserId as jest.Mock).mockResolvedValue(transactions);
 
-      const result = await controller.getHistory();
+      const req = { user: { id: '1' } };
+      const result = await controller.getHistoryByUserId(req);
       expect(result).toBe(transactions);
-      expect(service.findAll).toHaveBeenCalled();
-    });
-  });
-
-  describe('create', () => {
-    it('should create a transaction', async () => {
-      const dto = { userId: '1', city: 'Bogota' };
-      const created = { id: 1, ...dto };
-      (service.create as jest.Mock).mockResolvedValue(created);
-
-      const result = await controller.create(dto as any);
-      expect(result).toBe(created);
-      expect(service.create).toHaveBeenCalledWith(dto);
+      expect(service.findByUserId).toHaveBeenCalledWith('1');
     });
   });
 });

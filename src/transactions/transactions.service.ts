@@ -1,9 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Transaction } from './entities/transaction.entity';
-
 
 @Injectable()
 export class TransactionsService {
@@ -16,7 +15,12 @@ export class TransactionsService {
   }
 
   async findByUserId(userId: string): Promise<Transaction[]> {
-    return this.transactionModel.find({ userId }).sort({ createdAt: -1 }).exec();
+    try {
+      const objectId = new Types.ObjectId(userId);
+      return this.transactionModel.find({ userId: objectId }).sort({ createdAt: -1 }).exec();
+    } catch (error) {
+      throw new NotFoundException('No transactions found for this user');
+    }
   }
 
   async create(createTransactionData: CreateTransactionDto): Promise<Transaction> {

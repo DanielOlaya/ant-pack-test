@@ -33,7 +33,6 @@ export class JwtAuthGuard implements CanActivate {
       request.user = user._id;
       return true;
     } catch (error) {
-      console.log('auth error - ', error.message);
       throw new ForbiddenException(error.message || 'Please sign In');
     }
   }

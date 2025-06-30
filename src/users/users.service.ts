@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -10,24 +10,11 @@ export class UsersService {
 
   async findOne(username: string): Promise<User | undefined> {
     const user = await this.userModel.findOne({ username }).exec();
-    if (user) return user.toObject();
-    return undefined;
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+    return user.toObject();
   }
-
-  // async findOneAndUpdate(
-  //   username: string,
-  //   user: Partial<User>,
-  // ): Promise<User | undefined> {
-  //   const userUpdated = await this.userModel
-  //     .findOneAndUpdate({ username }, user)
-  //     .exec();
-  //   if (userUpdated) return userUpdated.toObject();
-  //   return undefined;
-  // }
-
-  // async findAll(query?: Record<string, any>): Promise<User[]> {
-  //   return await this.userModel.find(query).sort({ createdAt: -1 }).exec();
-  // }
 
   async create(
     user: CreateUserDto,

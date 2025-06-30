@@ -1,27 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('transactions')
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Get('history')
-  async getHistory() {
-    try {
-      return this.transactionsService.findAll();
-    } catch (error) {
-      throw error;
-    }
-  }
-  
-  @Post()
-  async create(@Body() createTransactionDto: CreateTransactionDto) {
-    try {
-      return this.transactionsService.create(createTransactionDto);
-    } catch (error) {
-      throw error;
-    }
+  @UseGuards(JwtAuthGuard)
+  async getHistoryByUserId(@Req() req: any) {
+    return this.transactionsService.findByUserId(req.user.id);
   }
   
 }

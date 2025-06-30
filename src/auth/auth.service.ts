@@ -2,7 +2,6 @@ import { Injectable, InternalServerErrorException, UnauthorizedException } from 
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import { LoginDto } from './dto/login.dto';
 
 type User = {
   _id?: string;
@@ -35,7 +34,6 @@ export class AuthService {
       throw new UnauthorizedException();
     } catch (error) {
       throw error;
-      // throw new InternalServerErrorException('Login failed', error.message);
     }
   }
 

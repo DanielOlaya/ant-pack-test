@@ -32,7 +32,7 @@ describe('AuthController', () => {
     const body = { username: 'test', password: 'pass' };
     const result = await controller.login(body);
     expect(result).toEqual({ username: 'test', access_token: 'token' });
-    expect(service.login).toHaveBeenCalledWith('test', 'pass');
+    expect(service.login).toHaveBeenCalledWith(body.username, body.password);
   });
 
   it('should register a user', async () => {
