@@ -6,6 +6,8 @@ import helmet from 'helmet';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { urlencoded, json, Response } from 'express';
 import { Logger } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -52,6 +54,15 @@ async function bootstrap() {
 
     next();
   });
+
+  const config = new DocumentBuilder()
+    .setTitle('Ant Pack API')
+    .setDescription('API para restaurantes y transacciones')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api-docs', app, document);
 
   await app.listen(3000);
 }
