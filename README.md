@@ -181,6 +181,21 @@ Authorization: Bearer <access_token>
 
 ---
 
+## Decisiones técnicas
+
+- **NestJS**: Se eligió NestJS por su arquitectura modular, soporte nativo para TypeScript, integración sencilla con MongoDB y buenas prácticas para construir APIs escalables y mantenibles.
+- **MongoDB + Mongoose**: MongoDB es ideal para prototipos y aplicaciones que requieren flexibilidad en el esquema. Mongoose facilita la validación y modelado de datos, dado que en esta aplicación no neecsitamos data relacional ni transacciones que afecten varias entidades al tiempo.
+- **Autenticación JWT**: Se implementó autenticación basada en JWT para proteger los endpoints y permitir escalabilidad (stateless auth).
+- **Separación de módulos**: Cada dominio principal (usuarios, autenticación, restaurantes, transacciones) está en su propio módulo para facilitar el mantenimiento y la escalabilidad.
+- **Variables de entorno**: Se usan variables de entorno para credenciales y secretos, evitando exponer información sensible en el código fuente.
+- **Swagger**: Se incluyó documentación Swagger para facilitar el consumo y prueba de la API.
+- **Pruebas unitarias**: Se agregaron pruebas unitarias para controladores y servicios clave, usando mocks para dependencias externas y bases de datos.
+- **Persistencia de transacciones**: Cada búsqueda de restaurantes por un usuario se almacena como una transacción, permitiendo un historial auditable.
+- **Integración con API pública**: Para obtener restaurantes cercanos se utiliza la API pública de Yelp, pero el diseño permite cambiar fácilmente a otro proveedor si es necesario.
+- **Soporte Docker**: Se provee un `Dockerfile` y `docker-compose.yaml` para facilitar la ejecución y despliegue local o en la nube.
+
+---
+
 ## Documentación Swagger
 
 La documentación interactiva está disponible en:  
