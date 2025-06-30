@@ -14,20 +14,20 @@ export class UsersService {
     return undefined;
   }
 
-  async findOneAndUpdate(
-    username: string,
-    user: Partial<User>,
-  ): Promise<User | undefined> {
-    const userUpdated = await this.userModel
-      .findOneAndUpdate({ username }, user)
-      .exec();
-    if (userUpdated) return userUpdated.toObject();
-    return undefined;
-  }
+  // async findOneAndUpdate(
+  //   username: string,
+  //   user: Partial<User>,
+  // ): Promise<User | undefined> {
+  //   const userUpdated = await this.userModel
+  //     .findOneAndUpdate({ username }, user)
+  //     .exec();
+  //   if (userUpdated) return userUpdated.toObject();
+  //   return undefined;
+  // }
 
-  async findAll(query?: Record<string, any>): Promise<User[]> {
-    return await this.userModel.find(query).sort({ createdAt: -1 }).exec();
-  }
+  // async findAll(query?: Record<string, any>): Promise<User[]> {
+  //   return await this.userModel.find(query).sort({ createdAt: -1 }).exec();
+  // }
 
   async create(
     user: CreateUserDto,

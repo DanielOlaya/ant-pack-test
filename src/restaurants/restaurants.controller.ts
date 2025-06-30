@@ -1,15 +1,27 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
 import { RestaurantsService } from './restaurants.service';
-import { CreateRestaurantDto } from './dto/create-restaurant.dto';
+import { GetRestaurantsDto } from './dto/get-restaurants.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('restaurants')
 export class RestaurantsController {
   constructor(private readonly restaurantsService: RestaurantsService) {}
 
   @Get('nearby')
-  async findNearby(@Query('city') city: string) {
+  @UseGuards(JwtAuthGuard)
+  async findNearby(
+    @Query('city') city: string,
+    @Query('lat') lat: string,
+    @Query('lon') lon: string,
+    @Req() req: any
+  ) {
     try {
-      return this.restaurantsService.findNearby(city);
+      return this.restaurantsService.findNearby({
+        city,
+        lat,
+        lon,
+        userId: req.user,
+      });
     } catch (error) {
       throw error;
     }
