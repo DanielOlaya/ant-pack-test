@@ -5,6 +5,9 @@
 API RESTful para registro, autenticación, consulta de restaurantes cercanos y gestión de transacciones históricas.  
 Desarrollada con NestJS, MongoDB y autenticación JWT.
 
+Versión desplegada en fly.io:
+[https://ant-pack-test.fly.dev/api-docs](https://ant-pack-test.fly.dev/api-docs)
+
 ---
 
 ## Endpoints
@@ -200,6 +203,8 @@ Authorization: Bearer <access_token>
 
 La documentación interactiva está disponible en:  
 [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+o en:
+[https://ant-pack-test.fly.dev/api-docs](https://ant-pack-test.fly.dev/api-docs)
 
 ---
 
